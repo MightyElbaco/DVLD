@@ -11,13 +11,13 @@ using System.Windows.Forms;
 
 namespace DVLD
 {
-    public partial class frmShowPersonDetails : Form
+    public partial class frmDrivingLicenseInformation : Form
     {
-        public frmShowPersonDetails(int PersonID)
+        public frmDrivingLicenseInformation(int LicenseID)
         {
             InitializeComponent();
-            this.ctrlPersonDetails1.LoadPersonInfo(PersonID);
         }
+
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();

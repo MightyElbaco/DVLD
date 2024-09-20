@@ -36,11 +36,13 @@
             this.tsmiChangePassword = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiEdit = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.mtbFilter = new System.Windows.Forms.MaskedTextBox();
+            this.tsmiShowDetails = new System.Windows.Forms.ToolStripMenuItem();
             this.cbFilters = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnAddUser = new System.Windows.Forms.Button();
             this.lbManageUsers = new System.Windows.Forms.Label();
+            this.cbIsActive = new System.Windows.Forms.ComboBox();
+            this.mtbFilter = new System.Windows.Forms.MaskedTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUsers)).BeginInit();
             this.cmsOptions.SuspendLayout();
             this.SuspendLayout();
@@ -60,7 +62,7 @@
             // 
             this.dgvUsers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvUsers.ContextMenuStrip = this.cmsOptions;
-            this.dgvUsers.Location = new System.Drawing.Point(15, 158);
+            this.dgvUsers.Location = new System.Drawing.Point(28, 158);
             this.dgvUsers.Name = "dgvUsers";
             this.dgvUsers.Size = new System.Drawing.Size(941, 266);
             this.dgvUsers.TabIndex = 8;
@@ -71,49 +73,61 @@
             this.tsmiAddNew,
             this.tsmiChangePassword,
             this.tsmiEdit,
-            this.tsmiDelete});
+            this.tsmiDelete,
+            this.tsmiShowDetails});
             this.cmsOptions.Name = "cmsOptions";
-            this.cmsOptions.Size = new System.Drawing.Size(169, 92);
+            this.cmsOptions.Size = new System.Drawing.Size(169, 114);
             // 
             // tsmiAddNew
             // 
             this.tsmiAddNew.Name = "tsmiAddNew";
-            this.tsmiAddNew.Size = new System.Drawing.Size(180, 22);
+            this.tsmiAddNew.Size = new System.Drawing.Size(168, 22);
             this.tsmiAddNew.Text = "Add New";
+            this.tsmiAddNew.Click += new System.EventHandler(this.btnAddUser_Click);
             // 
             // tsmiChangePassword
             // 
             this.tsmiChangePassword.Name = "tsmiChangePassword";
-            this.tsmiChangePassword.Size = new System.Drawing.Size(180, 22);
+            this.tsmiChangePassword.Size = new System.Drawing.Size(168, 22);
             this.tsmiChangePassword.Text = "Change Password";
+            this.tsmiChangePassword.Click += new System.EventHandler(this.tsmiChangePassword_Click);
             // 
             // tsmiEdit
             // 
             this.tsmiEdit.Name = "tsmiEdit";
-            this.tsmiEdit.Size = new System.Drawing.Size(180, 22);
+            this.tsmiEdit.Size = new System.Drawing.Size(168, 22);
             this.tsmiEdit.Text = "Edit";
             this.tsmiEdit.Click += new System.EventHandler(this.tsmiEdit_Click);
             // 
             // tsmiDelete
             // 
             this.tsmiDelete.Name = "tsmiDelete";
-            this.tsmiDelete.Size = new System.Drawing.Size(180, 22);
+            this.tsmiDelete.Size = new System.Drawing.Size(168, 22);
             this.tsmiDelete.Text = "Delete";
+            this.tsmiDelete.Click += new System.EventHandler(this.tsmiDelete_Click);
             // 
-            // mtbFilter
+            // tsmiShowDetails
             // 
-            this.mtbFilter.Location = new System.Drawing.Point(273, 131);
-            this.mtbFilter.Name = "mtbFilter";
-            this.mtbFilter.Size = new System.Drawing.Size(197, 20);
-            this.mtbFilter.TabIndex = 13;
+            this.tsmiShowDetails.Name = "tsmiShowDetails";
+            this.tsmiShowDetails.Size = new System.Drawing.Size(168, 22);
+            this.tsmiShowDetails.Text = "Show Details";
+            this.tsmiShowDetails.Click += new System.EventHandler(this.tsmiShowDetails_Click);
             // 
             // cbFilters
             // 
             this.cbFilters.FormattingEnabled = true;
+            this.cbFilters.Items.AddRange(new object[] {
+            "None",
+            "UserID",
+            "PersonID",
+            "UserName",
+            "FullName",
+            "IsActive"});
             this.cbFilters.Location = new System.Drawing.Point(68, 131);
             this.cbFilters.Name = "cbFilters";
             this.cbFilters.Size = new System.Drawing.Size(199, 21);
             this.cbFilters.TabIndex = 12;
+            this.cbFilters.SelectedIndexChanged += new System.EventHandler(this.cbFilters_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -143,20 +157,43 @@
             // 
             this.lbManageUsers.AutoSize = true;
             this.lbManageUsers.Font = new System.Drawing.Font("Times New Roman", 24F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbManageUsers.Location = new System.Drawing.Point(350, 27);
+            this.lbManageUsers.Location = new System.Drawing.Point(401, 30);
             this.lbManageUsers.Name = "lbManageUsers";
             this.lbManageUsers.Size = new System.Drawing.Size(203, 36);
             this.lbManageUsers.TabIndex = 9;
             this.lbManageUsers.Text = "Manage Users";
+            // 
+            // cbIsActive
+            // 
+            this.cbIsActive.Enabled = false;
+            this.cbIsActive.FormattingEnabled = true;
+            this.cbIsActive.Items.AddRange(new object[] {
+            "Yes",
+            "No"});
+            this.cbIsActive.Location = new System.Drawing.Point(273, 131);
+            this.cbIsActive.Name = "cbIsActive";
+            this.cbIsActive.Size = new System.Drawing.Size(121, 21);
+            this.cbIsActive.TabIndex = 15;
+            this.cbIsActive.Visible = false;
+            this.cbIsActive.SelectedIndexChanged += new System.EventHandler(this.cbIsActive_SelectedIndexChanged);
+            // 
+            // mtbFilter
+            // 
+            this.mtbFilter.Location = new System.Drawing.Point(273, 131);
+            this.mtbFilter.Name = "mtbFilter";
+            this.mtbFilter.Size = new System.Drawing.Size(199, 20);
+            this.mtbFilter.TabIndex = 16;
+            this.mtbFilter.TextChanged += new System.EventHandler(this.tbFilter_TextChanged);
             // 
             // frmManageUsers
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(968, 450);
+            this.Controls.Add(this.mtbFilter);
+            this.Controls.Add(this.cbIsActive);
             this.Controls.Add(this.btnRefreshdgvUsers);
             this.Controls.Add(this.dgvUsers);
-            this.Controls.Add(this.mtbFilter);
             this.Controls.Add(this.cbFilters);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnAddUser);
@@ -175,7 +212,6 @@
 
         private System.Windows.Forms.Button btnRefreshdgvUsers;
         private System.Windows.Forms.DataGridView dgvUsers;
-        private System.Windows.Forms.MaskedTextBox mtbFilter;
         private System.Windows.Forms.ComboBox cbFilters;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnAddUser;
@@ -185,5 +221,8 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiChangePassword;
         private System.Windows.Forms.ToolStripMenuItem tsmiEdit;
         private System.Windows.Forms.ToolStripMenuItem tsmiDelete;
+        private System.Windows.Forms.ComboBox cbIsActive;
+        private System.Windows.Forms.MaskedTextBox mtbFilter;
+        private System.Windows.Forms.ToolStripMenuItem tsmiShowDetails;
     }
 }

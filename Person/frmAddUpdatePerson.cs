@@ -17,6 +17,13 @@ namespace DVLD
 {
     public partial class frmAddUpdatePerson : Form
     {
+        // Declare a delegate
+        public delegate void DataBackEventHandler(object sender, int PersonID);
+
+        // Declare an event using the delegate
+        public event DataBackEventHandler DataBack;
+
+
         public clsPerson.enMode Mode {  get; set; }
 
         private void LoadPersonInfo(int PersonID)
@@ -165,7 +172,7 @@ namespace DVLD
 
                     this.ctrlAddUpdatePerson1.Enabled = false;
                     this.btnSave.Enabled = false;
-                    this.ctrlAddUpdatePerson1.lbPersonID.Text = clsPerson.GetPersonID(NewPerson.NationalNO).ToString();
+                    DataBack?.Invoke(this, NewPerson.PersonID);
                 }
             else
                 {
@@ -188,6 +195,9 @@ namespace DVLD
 
                     this.ctrlAddUpdatePerson1.Enabled = false;
                     this.btnSave.Enabled = false;
+
+                    //Invoke the Events
+                    DataBack?.Invoke(this, Person.PersonID);
                 }
         }
     }

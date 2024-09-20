@@ -167,7 +167,7 @@ namespace DVLD
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(968, 450);
+            this.ClientSize = new System.Drawing.Size(969, 450);
             this.Controls.Add(this.btnRefreshdgvPeople);
             this.Controls.Add(this.dgvPeople);
             this.Controls.Add(this.mtbFilter);

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 namespace DVLD
 {
@@ -29,39 +30,10 @@ namespace DVLD
             InitializeComponent();
         }
 
-        private void InitializecmFilters()
-        {
-            // Create a list of FilterItem objects
-            var filters = new List<FilterItem>
-                {
-                    new FilterItem { DisplayName = "None"},
-                    new FilterItem { DisplayName = "PersonID"},
-                    new FilterItem { DisplayName = "First Name" },
-                    new FilterItem { DisplayName = "Second Name" },
-                    new FilterItem { DisplayName = "Third Name" },
-                    new FilterItem { DisplayName = "Last Name" },
-                    new FilterItem { DisplayName = "NationalNO" },
-                    new FilterItem { DisplayName = "Nationality (CountryID)" },
-                    new FilterItem { DisplayName = "Gender" },
-                    new FilterItem { DisplayName = "Phone" },
-                    new FilterItem { DisplayName = "Email" }
-                };
-
-            // Bind the ComboBox to the list of FilterItem
-            cbFilters.DataSource = filters;
-            cbFilters.DisplayMember = "DisplayName";  // The property to display
-
-            // Optionally set a default selection
-            if (cbFilters.Items.Count > 0)
-            {
-                cbFilters.SelectedIndex = 0; // Select the first item by default
-            }
-        }
-
-        private void ApplyFilter(string filterExpression)
+        private void ApplyFilter(string FilterExpression)
         {
             // Apply the filter expression to the DataView
-            _sdvUsers.RowFilter = filterExpression;
+            _sdvUsers.RowFilter = FilterExpression; 
         }
 
         private void FillRefreshDataGirdView()
@@ -84,6 +56,9 @@ namespace DVLD
             this.dgvUsers.Columns["FullName"].Width = 300;
             this.dgvUsers.Columns["UserName"].Width = 250;
             this.dgvUsers.Columns["IsActive"].Width = 150;
+
+            //Set the default filter
+            this.cbFilters.SelectedIndex = 0;
         }
 
         private void frmManageUsers_Load(object sender, EventArgs e)
@@ -93,17 +68,17 @@ namespace DVLD
 
         private void btnAddUser_Click(object sender, EventArgs e)
         {
-            Form NewUser = new frmAddUpdateNewUser();
+            Form NewUser = new frmAddNewUpdateUser();
             NewUser.ShowDialog();
         }
 
         private void tsmiEdit_Click(object sender, EventArgs e)
         {
-            if(dgvUsers.SelectedRows.Count == 1)
+            if (dgvUsers.SelectedRows.Count == 1)
             {
                 if (int.TryParse(this.dgvUsers.SelectedRows[0].Cells[0].Value.ToString(), out int UserID))
                 {
-                    Form NewUser = new frmAddUpdateNewUser(UserID);
+                    Form NewUser = new frmAddNewUpdateUser(UserID);
                     NewUser.ShowDialog();
                 }
             }
@@ -116,6 +91,160 @@ namespace DVLD
         private void btnRefreshdgvUsers_Click(object sender, EventArgs e)
         {
             FillRefreshDataGirdView();
+        }
+
+        private void tsmiDelete_Click(object sender, EventArgs e)
+        {
+            if (dgvUsers.SelectedRows.Count == 1)
+            {
+                //Confirm the deletion
+                DialogResult Result = MessageBox.Show("Are you sure?", "Confirm deletion!", MessageBoxButtons.OKCancel,
+                    MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+
+                if (Result == DialogResult.OK)
+                {
+                    if (int.TryParse(this.dgvUsers.SelectedRows[0].Cells[0].Value.ToString(), out int UserID))
+                    {
+                        clsUser.DeleteUserByID(UserID);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Select One Record!");
+            }
+        }
+
+        private void tbFilter_TextChanged(object sender, EventArgs e)
+        {
+            switch (cbFilters.SelectedIndex)
+            {
+                case 0:
+                    {
+                        ApplyFilter("");
+                        break;
+                    }
+                case 1:
+                    {
+                        ApplyFilter($"CONVERT(UserID, System.String) LIKE '{mtbFilter.Text}%'");
+                        break;
+                    }
+                case 2:
+                    {
+                        ApplyFilter($"CONVERT(PersonID, System.String) LIKE '{mtbFilter.Text}%'");
+                        break;
+                    }
+                case 3:
+                    {
+                        ApplyFilter($"UserName LIKE '{mtbFilter.Text}%'");
+                        break;
+                    }
+                case 4:
+                    {
+                        ApplyFilter($"FullName LIKE '{mtbFilter.Text}%'");
+                        break;
+                    }
+            }
+        }
+
+        private void cbFilters_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbFilters.SelectedIndex != 5)
+            {
+                this.mtbFilter.Enabled = true;
+                this.mtbFilter.Visible = true;
+
+                this.cbIsActive.Enabled = false;
+                this.cbIsActive.Visible = false;
+            }
+
+            switch (cbFilters.SelectedIndex)
+            {
+                case 0:
+                    {
+                        //No mask
+                        mtbFilter.Mask = "";
+                        break;
+                    }
+                case 1:
+                    {
+                        //Numbers only mask // UserID
+                        mtbFilter.Mask = "0000000000";
+                        break;
+                    }
+                case 2:
+                    {
+                        //Letters only mask
+                        mtbFilter.Mask = "0000000000";
+                        break;
+                    }
+                case 3:
+                    {
+                        //Letters only mask
+                        mtbFilter.Mask = "LLLLLLLLLLLLLLLLLLLL";
+                        break;
+                    }
+                case 4:
+                    {
+                        //Letters only mask
+                        mtbFilter.Mask = "LLLLLLLLLLLLLLLLLLLL";
+                        break;
+                    }
+                case 5:
+                    {
+                        this.mtbFilter.Enabled = false;
+                        this.mtbFilter.Visible = false;
+
+                        this.cbIsActive.Enabled = true;
+                        this.cbIsActive.Visible = true;
+                        break;
+                    }
+            }
+        }
+
+        private void cbIsActive_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.cbIsActive.SelectedIndex == 0)
+            {
+                ApplyFilter($"IsActive = 1");
+            }
+            else
+            {
+                ApplyFilter($"IsActive = 0");
+            }
+        }
+
+        private void tsmiShowDetails_Click(object sender, EventArgs e)
+        {
+            if (dgvUsers.SelectedRows.Count == 1)
+            {
+                if (int.TryParse(this.dgvUsers.SelectedRows[0].Cells[0].Value.ToString(), out int UserID))
+                {
+                    Form UserDetails = new frmShowUserDetails(UserID);
+                    UserDetails.ShowDialog();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Select One Record!");
+            }
+        }
+
+        private void tsmiChangePassword_Click(object sender, EventArgs e)
+        {
+            if (this.dgvUsers.SelectedRows.Count == 1)
+            {
+                if (int.TryParse(this.dgvUsers.SelectedRows[0].Cells[0].Value.ToString(), out int UserID))
+                {
+                    Form ChangePassword = new frmChangePassword(UserID);
+                    ChangePassword.MdiParent = this;
+                    ChangePassword.Show();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Select One Record!");
+            }
         }
     }
 }

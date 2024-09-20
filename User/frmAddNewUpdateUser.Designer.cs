@@ -1,6 +1,8 @@
-﻿namespace DVLD
+﻿using System.Windows.Forms.VisualStyles;
+
+namespace DVLD
 {
-    partial class frmAddUpdateNewUser
+    partial class frmAddNewUpdateUser
     {
         /// <summary>
         /// Required designer variable.
@@ -39,6 +41,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btnNext = new System.Windows.Forms.Button();
             this.tpLoginInfo = new System.Windows.Forms.TabPage();
+            this.lbUserIDValue = new System.Windows.Forms.Label();
+            this.lbUserID = new System.Windows.Forms.Label();
             this.rbtnNotActive = new System.Windows.Forms.RadioButton();
             this.tbConfirmPassword = new System.Windows.Forms.TextBox();
             this.tbPassword = new System.Windows.Forms.TextBox();
@@ -50,9 +54,7 @@
             this.btnSave = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
-            this.lbUserID = new System.Windows.Forms.Label();
-            this.lbUserIDValue = new System.Windows.Forms.Label();
-            this.ctrlPersonDetails1 = new DVLD.ctrlPersonDetails();
+            this.ctrlPersonDetails1 = new ctrlPersonDetails();
             this.tcUserInfo.SuspendLayout();
             this.tpPersonalInfo.SuspendLayout();
             this.tpLoginInfo.SuspendLayout();
@@ -63,7 +65,7 @@
             // 
             this.lbAddNewUpdateUser.AutoSize = true;
             this.lbAddNewUpdateUser.Font = new System.Drawing.Font("Times New Roman", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbAddNewUpdateUser.Location = new System.Drawing.Point(298, 9);
+            this.lbAddNewUpdateUser.Location = new System.Drawing.Point(250, 9);
             this.lbAddNewUpdateUser.Name = "lbAddNewUpdateUser";
             this.lbAddNewUpdateUser.Size = new System.Drawing.Size(276, 31);
             this.lbAddNewUpdateUser.TabIndex = 2;
@@ -153,6 +155,13 @@
             this.label1.TabIndex = 8;
             this.label1.Text = "Find By:";
             // 
+            // ctrlPersonDetails1
+            //
+            this.ctrlPersonDetails1.Location = new System.Drawing.Point(6, 50);
+            this.ctrlPersonDetails1.Name = "ctrlPersonDetails1";
+            this.ctrlPersonDetails1.Size = new System.Drawing.Size(690, 300);
+            this.ctrlPersonDetails1.TabIndex = 3;
+            // 
             // btnNext
             // 
             this.btnNext.Location = new System.Drawing.Point(627, 356);
@@ -183,6 +192,27 @@
             this.tpLoginInfo.Text = "Login Info";
             this.tpLoginInfo.UseVisualStyleBackColor = true;
             // 
+            // lbUserIDValue
+            // 
+            this.lbUserIDValue.AutoSize = true;
+            this.lbUserIDValue.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbUserIDValue.Location = new System.Drawing.Point(180, 27);
+            this.lbUserIDValue.Name = "lbUserIDValue";
+            this.lbUserIDValue.Size = new System.Drawing.Size(80, 23);
+            this.lbUserIDValue.TabIndex = 13;
+            this.lbUserIDValue.Text = "*******";
+            this.lbUserIDValue.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbUserID
+            // 
+            this.lbUserID.AutoSize = true;
+            this.lbUserID.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbUserID.Location = new System.Drawing.Point(6, 27);
+            this.lbUserID.Name = "lbUserID";
+            this.lbUserID.Size = new System.Drawing.Size(76, 23);
+            this.lbUserID.TabIndex = 12;
+            this.lbUserID.Text = "UserID:";
+            // 
             // rbtnNotActive
             // 
             this.rbtnNotActive.AutoSize = true;
@@ -201,6 +231,7 @@
             // 
             this.tbConfirmPassword.Location = new System.Drawing.Point(184, 151);
             this.tbConfirmPassword.Name = "tbConfirmPassword";
+            this.tbConfirmPassword.PasswordChar = '*';
             this.tbConfirmPassword.Size = new System.Drawing.Size(226, 20);
             this.tbConfirmPassword.TabIndex = 8;
             this.tbConfirmPassword.TextChanged += new System.EventHandler(this.tbConfirmPassword_TextChanged);
@@ -209,6 +240,7 @@
             // 
             this.tbPassword.Location = new System.Drawing.Point(184, 111);
             this.tbPassword.Name = "tbPassword";
+            this.tbPassword.PasswordChar = '*';
             this.tbPassword.Size = new System.Drawing.Size(226, 20);
             this.tbPassword.TabIndex = 7;
             this.tbPassword.TextChanged += new System.EventHandler(this.tbPassword_TextChanged);
@@ -287,35 +319,7 @@
             // 
             this.errorProvider1.ContainerControl = this;
             // 
-            // lbUserID
-            // 
-            this.lbUserID.AutoSize = true;
-            this.lbUserID.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbUserID.Location = new System.Drawing.Point(6, 27);
-            this.lbUserID.Name = "lbUserID";
-            this.lbUserID.Size = new System.Drawing.Size(76, 23);
-            this.lbUserID.TabIndex = 12;
-            this.lbUserID.Text = "UserID:";
-            // 
-            // lbUserIDValue
-            // 
-            this.lbUserIDValue.AutoSize = true;
-            this.lbUserIDValue.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbUserIDValue.Location = new System.Drawing.Point(180, 27);
-            this.lbUserIDValue.Name = "lbUserIDValue";
-            this.lbUserIDValue.Size = new System.Drawing.Size(80, 23);
-            this.lbUserIDValue.TabIndex = 13;
-            this.lbUserIDValue.Text = "*******";
-            this.lbUserIDValue.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // ctrlPersonDetails1
-            // 
-            this.ctrlPersonDetails1.Location = new System.Drawing.Point(6, 50);
-            this.ctrlPersonDetails1.Name = "ctrlPersonDetails1";
-            this.ctrlPersonDetails1.Size = new System.Drawing.Size(690, 300);
-            this.ctrlPersonDetails1.TabIndex = 3;
-            // 
-            // frmAddUpdateNewUser
+            // frmAddNewUpdateUser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -324,7 +328,7 @@
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.tcUserInfo);
             this.Controls.Add(this.lbAddNewUpdateUser);
-            this.Name = "frmAddUpdateNewUser";
+            this.Name = "frmAddNewUpdateUser";
             this.Text = "frmAddNewUser";
             this.tcUserInfo.ResumeLayout(false);
             this.tpPersonalInfo.ResumeLayout(false);

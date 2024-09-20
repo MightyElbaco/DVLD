@@ -13,39 +13,10 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace DVLD
 {
-    public partial class frmAddUpdateNewUser : Form
+    public partial class frmAddNewUpdateUser : Form
     {
         private clsUser.enMode Mode {  get; set; }
-
-        private void LoadPersonDetails(int PersonID)
-        {
-            clsPerson Person = clsPerson.Find(PersonID);
-
-            if (Person != null)
-            {
-                this.ctrlPersonDetails1.lbPersonIDValue.Text = Person.PersonID.ToString();
-                this.ctrlPersonDetails1.lbFullNameValue.Text = Person.GetFullName();
-                this.ctrlPersonDetails1.lbNationalNOValue.Text = Person.NationalNO;
-
-                clsCountry Country = clsCountry.Find(Person.NationalityCountryID);
-                this.ctrlPersonDetails1.lbCountryValue.Text = Country.CountryName;
-
-                this.ctrlPersonDetails1.lbEmail.Text = Person.Email;
-                this.ctrlPersonDetails1.lbEmail.Text = Person.Phone;
-                this.ctrlPersonDetails1.lbDateOfBirthValue.Text = Person.DateOfBirth.ToString();
-
-                if (Person.Gender == 'M')
-                    this.ctrlPersonDetails1.lbGenderValue.Text = "Male";
-                else
-                    this.ctrlPersonDetails1.lbGenderValue.Text = "Female";
-
-                this.ctrlPersonDetails1.lbAddressValue.Text = Person.Address;
-            }
-            else
-            {
-                this.ctrlPersonDetails1 = null;
-            }
-        }
+        private string Username { get; set; }
 
         private void LoadUserInfo(int UserID)
         {
@@ -53,7 +24,7 @@ namespace DVLD
 
             if(User != null)
             {
-                LoadPersonDetails(User.PersonID);
+                this.ctrlPersonDetails1.LoadPersonInfo(User.PersonID);
 
                 this.lbUserIDValue.Text = UserID.ToString();
                 this.tbUserName.Text = User.UserName;
@@ -100,13 +71,13 @@ namespace DVLD
             this.tbConfirmPassword.Enabled = false;
         }
 
-        public frmAddUpdateNewUser()
+        public frmAddNewUpdateUser()
         {
             InitializeComponent();
             AddNewUserInitialization();
         }
 
-        public frmAddUpdateNewUser(int UserID)
+        public frmAddNewUpdateUser(int UserID)
         {
             InitializeComponent();
             UpdateUserInitialization(UserID);
@@ -147,7 +118,7 @@ namespace DVLD
                 else
                     this.ctrlPersonDetails1.lbGenderValue.Text = "Female";
         
-                this.ctrlPersonDetails1.lbAddressValue.Text = Person.Address;
+                this.ctrlPersonDetails1.rtbAddress.Text = Person.Address;
             }
         }
 
@@ -163,7 +134,8 @@ namespace DVLD
 
         private void btnAddPerson_Click(object sender, EventArgs e)
         {
-            Form AddNewPerson = new frmAddUpdatePerson();
+            frmAddUpdatePerson AddNewPerson = new frmAddUpdatePerson();
+            AddNewPerson.DataBack += DataBack;
             AddNewPerson.ShowDialog();
         }
 
@@ -176,7 +148,7 @@ namespace DVLD
                     if(Regex.IsMatch(tbFind.Text, @"^\d*$"))
                     {
                     //Find By PersonID
-                    LoadPersonDetails(Convert.ToInt32(tbFind.Text));
+                    this.ctrlPersonDetails1.LoadPersonInfo(Convert.ToInt32(tbFind.Text));
                     }
                 }
                 else
@@ -290,7 +262,17 @@ namespace DVLD
 
         private void tbUserName_TextChanged(object sender, EventArgs e)
         {
-            TextChanged(ref sender, "Can't be empty");
+            if(string.IsNullOrEmpty(this.Username))
+            {
+                this.Username = tbUserName.Text;
+            }
+
+            if(clsUser.DoesUserExist(tbUserName.Text) && this.Username != tbUserName.Text)
+            {
+                errorProvider1.SetError(tbUserName, "Username is used!");
+            }
+            else
+                TextChanged(ref sender, "Can't be empty");
         }
 
         private void tbPassword_TextChanged(object sender, EventArgs e)
@@ -301,6 +283,11 @@ namespace DVLD
         private void tbConfirmPassword_TextChanged(object sender, EventArgs e)
         {
             TextChanged(ref sender, "Can't be empty");
+
+            if(tbConfirmPassword.Text != tbPassword.Text)
+            {
+                errorProvider1.SetError(tbConfirmPassword, "Passwords don't match!");
+            }
         }
 
         private void rbtnActive_CheckedChanged(object sender, EventArgs e)
@@ -317,6 +304,11 @@ namespace DVLD
             {
                 rbtnActive.Checked = false;
             }
+        }
+
+        private void DataBack(object sender, int PersonID)
+        {
+            this.ctrlPersonDetails1.LoadPersonInfo(PersonID);
         }
     }
 }

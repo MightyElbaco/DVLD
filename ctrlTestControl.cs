@@ -1,5 +1,4 @@
-﻿using DVLDBusinessLayer;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,16 +10,16 @@ using System.Windows.Forms;
 
 namespace DVLD
 {
-    public partial class frmShowPersonDetails : Form
+    public partial class ctrlTestControl : UserControl
     {
-        public frmShowPersonDetails(int PersonID)
+        public ctrlTestControl()
         {
             InitializeComponent();
-            this.ctrlPersonDetails1.LoadPersonInfo(PersonID);
         }
-        private void btnClose_Click(object sender, EventArgs e)
+
+        private void btnAKey_Click(object sender, EventArgs e)
         {
-            this.Close();
+
         }
     }
 }
